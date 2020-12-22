@@ -1,6 +1,6 @@
 from db.user_db import UserInDB
 from db.user_db import update_user, get_user, register_user
-from db.expense_db import get_expenses_by_username, register_new_expense
+from db.expense_db import get_expenses_by_username, register_new_expense, get_all_expenses
 from db.transaction_db import TransactionInDB
 from db.transaction_db import save_transaction
 from models.user_models import UserIn, UserOut
@@ -80,6 +80,13 @@ async def add_new_expense(expense_in: ExpenseIn):
     # return {"name":"Eider"}
     new_expense = register_new_expense(expense_in)
     return new_expense
+
+@api.get("/user/check_expenses_array/")
+async def check_expenses_array():
+    # print(expense_in)
+    # return {"name":"Eider"}
+    all_expenses = get_all_expenses()
+    return all_expenses
 
 # @api.get("/user/balance/{username}")
 # async def get_balance(username: str):

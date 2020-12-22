@@ -38,3 +38,10 @@ def register_new_expense(expense_in_db: ExpenseInDB):
     print(database_expenses)
     return expense_in_db
 
+def get_all_expenses():
+   
+    # database_expenses.append(expense_in_db)
+
+    # print(database_expenses)
+    return database_expenses
+
