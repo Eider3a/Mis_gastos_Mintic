@@ -1,8 +1,10 @@
 from db.user_db import UserInDB
 from db.user_db import update_user, get_user, register_user
+from db.expense_db import get_expenses_by_username, register_new_expense
 from db.transaction_db import TransactionInDB
 from db.transaction_db import save_transaction
 from models.user_models import UserIn, UserOut
+from models.expense_models import ExpenseIn
 from models.transaction_models import TransactionIn,TransactionOut
 
 # Comando para correr el programa.
@@ -52,15 +54,32 @@ async def auth_user(user_in: UserIn):
         return {"Autenticado": False}
     return {"Autenticado": True}
 
+
+############################################
+# Nuevos metodos para cumplir los retos 4 y 5.
+
+# Metodo para obtener todos los gastos de un usuario
 @api.get("/user/expenses/{username}")
 async def get_total_expenses(username: str):
-    user_in_db = get_user(username)
-    if user_in_db == None:
-        raise HTTPException(status_code=404,
-            detail="El usuario no existe")
-    user_out = UserOut(**user_in_db.dict())
-    print(user_in_db)
-    return user_out
+    expenses_in_db = get_expenses_by_username(username)
+    print(expenses_in_db)
+    return {"count":len(expenses_in_db), "data": expenses_in_db}
+
+    # if expenses_in_db == None:
+    #     raise HTTPException(status_code=404,
+    #         detail="El usuario no existe")
+    # user_out = UserOut(**expenses_in_db.dict())
+    # print(expenses_in_db)
+    # return user_out
+
+
+# Este metodo permite que un usuario ingrese un nuevo gasto.
+@api.post("/user/add_expense/{username}")
+async def add_new_expense(expense_in: ExpenseIn):
+    # print(expense_in)
+    # return {"name":"Eider"}
+    new_expense = register_new_expense(expense_in)
+    return new_expense
 
 # @api.get("/user/balance/{username}")
 # async def get_balance(username: str):
